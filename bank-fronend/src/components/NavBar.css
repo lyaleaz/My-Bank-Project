@@ -1,0 +1,28 @@
+nav {
+  position: fixed; /* Position the navigation bar fixed at the top */
+  top: 0; /* Align the navigation bar to the top */
+  width: 100%; /* Make the navigation bar full width */
+  background-color: #f2feff;
+  padding: -10px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-link {
+  color: #465e5d;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.Transactions-link,
+.Operations-link {
+  color: #465e5d;
+  text-decoration: none;
+  margin-right: 15px;
+  font-family: "Dancing Script", cursive;
+}
+
+.navbar-BALANCE {
+  color: #465e5d;
+  margin-left: 790px;
+}
