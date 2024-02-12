@@ -1,40 +1,64 @@
 import React, { useState, useEffect } from "react";
-import "./Transactions.css";
 import axios from "axios";
 import Transaction from "./Transaction";
 import { Link } from "react-router-dom";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import "./Transactions.css";
+import image from "../images/bank.jpg";
 export default function Transactions(props) {
-  const [data, setData] = useState(null);
-  const [transactions, setBreakdown] = useState([]);
-  function getTransactions() {
-    return axios
-      .get("http://localhost:8181/transactions")
-      .then((response) => response.data)
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }
+  const [transactions, setTransactions] = useState([]);
+
   useEffect(() => {
-    const getData = async function () {
-      let transactionsData = await getTransactions();
-      setBreakdown(transactionsData);
-    };
-    getData();
-  }, [transactions]);
+    async function fetchData() {
+      try {
+        const response = await axios.get("http://localhost:8181/transactions");
+        setTransactions(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8181/transactions/${id}`);
+      setTransactions(
+        transactions.filter((transaction) => transaction._id !== id)
+      );
+    } catch (error) {
+      console.error("Error deleting transaction:", error);
+    }
+  };
+
   return (
-    <div>
+    <div className="transactions-container">
       <h2>All Transactions</h2>
-      {transactions.map((transaction, index) => (
-        <div className="trans" key={index}>
-          <Transaction
-            transaction={transaction}
-            transactions={props.transactions}
-            onDelete={props.onDelete}
-          />
-        </div>
-      ))}
+      <table className="transaction-table">
+        <thead>
+          <tr>
+            <th>Vendor</th>
+            <th>Category</th>
+            <th>Amount</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction) => (
+            <tr key={transaction._id}>
+              <td>{transaction.vendor}</td>
+              <td>{transaction.category}</td>
+              <td style={{ color: transaction.amount < 0 ? "red" : "green" }}>
+                {transaction.amount}
+              </td>
+              <td>
+                <button onClick={() => handleDelete(transaction._id)}>
+                  DELETE
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -1,6 +1,34 @@
-body {
-  background-color: white;
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
 }
-.trans {
-  color: black;
+
+.transaction-table {
+  border-collapse: collapse;
+  width: 50%;
+}
+
+.transaction-table th,
+.transaction-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.transaction-table th {
+  background-color: #f2f2f2;
+}
+
+.transaction-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.transaction-table tbody tr:hover {
+  background-color: #ddd;
+}
+button {
+  background-color: rgb(235, 103, 103);
 }

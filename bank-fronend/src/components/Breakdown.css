@@ -1,3 +1,24 @@
-.BreakdownClass {
+.breakdown-container {
+  max-width: 600px;
+  margin: 0 auto;
   margin-top: 150px;
+}
+
+.breakdown-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.breakdown-table th,
+.breakdown-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.breakdown-table th {
+  background-color: #f2f2f2;
+}
+
+.breakdown-item:hover {
+  background-color: #f2f2f2;
 }

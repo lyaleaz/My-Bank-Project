@@ -1,11 +1,46 @@
 body {
   margin: 0;
 }
-input {
-  width: 50%;
-  height: 40px;
-  margin-bottom: 22px;
-}
 .Operations {
-  margin-top: 150px;
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 180px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.deposit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.withdraw-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
 }

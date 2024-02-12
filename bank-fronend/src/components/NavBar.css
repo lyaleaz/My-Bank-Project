@@ -15,7 +15,8 @@ nav {
 }
 
 .Transactions-link,
-.Operations-link {
+.Operations-link,
+.Breakdown-link {
   color: #465e5d;
   text-decoration: none;
   margin-right: 15px;

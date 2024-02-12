@@ -1,78 +1,101 @@
 import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Operations.css";
-import { TextField } from "@mui/material";
 
 export default function Operations(props) {
   const [amount, setAmount] = useState(0);
   const [vendor, setVendor] = useState("");
   const [category, setCategory] = useState("");
-  // const [trans,setTrans] = useState([])
   const navigate = useNavigate();
 
   const handleDeposit = async (e) => {
-    // const moneyAmount = e === "deposit" ? amount : -amount;
+    e.preventDefault();
 
     try {
       await axios.post("http://localhost:8181/transactions", {
-        amount: amount,
+        amount: amount * 1,
         vendor: vendor,
         category: category,
       });
+      setAmount("");
+      setVendor("");
+      setCategory("");
+      navigate("/");
+      props.updateBalance(amount * 1);
     } catch (error) {
       console.error("Error depositing:", error);
     }
-    setAmount("");
-    setVendor("");
-    setCategory("");
-    navigate("/");
   };
 
   const handleWithdraw = async (e) => {
+    e.preventDefault();
+
     try {
       await axios.post("http://localhost:8181/transactions", {
-        amount: -amount,
+        amount: amount * -1,
         vendor: vendor,
         category: category,
       });
+      setAmount("");
+      setVendor("");
+      setCategory("");
       navigate("/");
+
+      props.updateBalance(amount * -1);
     } catch (error) {
       console.error("Error withdrawing:", error);
     }
-    setAmount("");
-    setVendor("");
-    setCategory("");
-    navigate("/");
+    await axios.put("http://localhost:8181/transactions/balance", {});
   };
 
   return (
     <form>
       <div className="Operations">
         <h2>Insert Transaction</h2>
-        <TextField
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
-        <TextField
-          type="text"
-          placeholder="Vendor"
-          value={vendor}
-          onChange={(e) => setVendor(e.target.value)}
-        />
-        <TextField
-          type="text"
-          placeholder="Category"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
-        <div>
-          <button onClick={handleDeposit}>Deposit</button>
-          <button onClick={handleWithdraw}>Withdraw</button>
+        <div className="form-group">
+          <label htmlFor="amount">Amount:</label>
+          <input
+            id="amount"
+            placeholder="Enter amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="vendor">Vendor:</label>
+          <input
+            type="text"
+            id="vendor"
+            placeholder="Enter vendor"
+            value={vendor}
+            onChange={(e) => setVendor(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="category">Category:</label>
+          <input
+            type="text"
+            id="category"
+            placeholder="Enter category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          />
+        </div>
+        <div className="button-group">
+          <button type="button" className="deposit-btn" onClick={handleDeposit}>
+            Deposit
+          </button>
+          <button
+            type="button"
+            className="withdraw-btn"
+            onClick={handleWithdraw}
+          >
+            Withdraw
+          </button>
         </div>
       </div>
     </form>

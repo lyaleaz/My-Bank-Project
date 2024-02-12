@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./NavBar.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -16,7 +16,12 @@ function NavBar({ balance }) {
       <Link to="/breakdown" className="Breakdown-link">
         Breakdown
       </Link>
-      <h2 className="navbar-BALANCE">BALANCE: {balance} </h2>
+      <h2 className="navbar-BALANCE">
+        BALANCE:{" "}
+        <span style={{ color: balance < 500 ? "red" : "green" }}>
+          {balance}$
+        </span>
+      </h2>
     </nav>
   );
 }
