@@ -25,12 +25,13 @@ router.post("/", function (req, res) {
   const amount = req.body.amount;
   const category = req.body.category;
   const vendor = req.body.vendor;
-
-  console.log(amount, category, vendor);
+  const date = req.body.date;
+  console.log(amount, category, vendor, date);
   const newData = new Bank({
     amount: amount,
     category: category,
     vendor: vendor,
+    date: date,
   });
   newData.save();
 
@@ -53,31 +54,90 @@ router.get("/breakdown", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+router.get("/category/:category", async (req, res) => {
+  const category = req.params.category;
+
+  try {
+    const transactions = await Bank.find({ category: category });
+    res.json(transactions);
+  } catch (error) {
+    console.error("Error retrieving transactions by category:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 router.delete("/:_id", function (req, res) {
   Bank.find({ name: req.params.vendor }).deleteOne().exec();
   res.send("the data deleted");
 });
-router.get("/balance", async (req, res) => {
+/* router.get("/balance", async (req, res) => {
   Balance.find({}).then(function (balance) {
     res.send(balance);
   });
 });
-router.post("/transactions", async (req, res) => {
+ */
+router.put("/balance/:id", async (req, res) => {
+  const data = req.body;
+  const paramsId = req.params.id;
+  const filter = { _id: paramsId };
+  const options = { upsert: true };
+  const updateDoc = {
+    $set: {
+      balance: data.balance,
+    },
+  };
+  const result = await Balance.updateOne(filter, updateDoc, options);
+  res.send(data);
+});
+router.post("/balance", async (req, res) => {
   try {
-    const newTransaction = new Transaction(req.body);
-    const savedNewTransaction = await newTransaction.save();
-    const balance = await Balance.findOne({});
-    const total = balance.balance + newTransaction.amount;
+    const amount = req.body.amount;
+    const balance1 = await Balance.findOne({});
+    const total = balance1.balance + amount;
     await Balance.findOneAndUpdate(
       {},
-      { $set: { total: balance } },
+      { $set: { balance: total } },
       { new: true }
     );
-    res.status(201).send(savedNewTransaction);
+    res.status(201).send();
   } catch (error) {
     console.error(error);
     res.status(404).send({ error: "Not saved! try again!" });
+  }
+});
+router.get("/balance", async (req, res) => {
+  try {
+    const balanceArr = await Balance.find({});
+    if (balanceArr.length == 0) {
+      const newBalance = new Balance({ total: 0 });
+      const savedNewBalance = await newBalance.save();
+      res.status(201).send(savedNewBalance);
+    } else {
+      const balance = balanceArr[0];
+      res.status(200).send(balance);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(404).send(error);
+  }
+});
+router.get("/:year/:month", async (req, res) => {
+  const year = parseInt(req.params.year);
+  const month = parseInt(req.params.month);
+
+  try {
+    const transactions = await Bank.find({
+      $expr: {
+        $and: [
+          { $eq: [{ $year: "$date" }, year] },
+          { $eq: [{ $month: "$date" }, month] },
+        ],
+      },
+    });
+    res.json(transactions);
+  } catch (error) {
+    console.error("Error retrieving transactions by month and year:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 

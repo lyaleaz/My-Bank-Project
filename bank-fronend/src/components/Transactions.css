@@ -17,7 +17,13 @@
   padding: 8px;
   text-align: left;
 }
-
+.filter-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 1px;
+}
 .transaction-table th {
   background-color: #f2f2f2;
 }
@@ -29,6 +35,6 @@
 .transaction-table tbody tr:hover {
   background-color: #ddd;
 }
-button {
+.DelButton {
   background-color: rgb(235, 103, 103);
 }

@@ -28,6 +28,7 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .deposit-btn {
@@ -43,4 +44,5 @@ button {
 .button-group {
   display: flex;
   gap: 10px;
+  margin-top: 25px;
 }

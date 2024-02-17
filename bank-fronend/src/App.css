@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+body {
+  color: rgb(134, 205, 205);
+}
 .background-image {
   position: absolute;
   bottom: 50%;
@@ -28,7 +31,6 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {

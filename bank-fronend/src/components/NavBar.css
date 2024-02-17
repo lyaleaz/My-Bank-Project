@@ -2,7 +2,7 @@ nav {
   position: fixed; /* Position the navigation bar fixed at the top */
   top: 0; /* Align the navigation bar to the top */
   width: 100%; /* Make the navigation bar full width */
-  background-color: #f2feff;
+  background-color: #f2f2f2;
   padding: -10px;
   display: flex;
   align-items: center;
@@ -26,4 +26,13 @@ nav {
 .navbar-BALANCE {
   color: #465e5d;
   margin-left: 790px;
+}
+.navbar-light {
+  background-color: #ffffff; /* Light mode background color */
+  color: #000000; /* Light mode text color */
+}
+
+.navbar-dark {
+  background-color: #131313; /* Dark mode background color */
+  color: #ffffff; /* Dark mode text color */
 }
